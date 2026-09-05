@@ -1,0 +1,754 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "VeriPulse Trust Intelligence API",
+    "description": "Unified Dual-Engine B2B Signup Fraud Defense & Bot Blocker by VeriPulse Labs. Synthesizes email deliverability and telecom carrier intelligence into an automated 0-100 Trust Score.",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Monitoring"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/trust-score": {
+      "get": {
+        "tags": [
+          "Trust Intelligence"
+        ],
+        "summary": "Evaluate Trust Score",
+        "description": "Unified Signup Fraud Defense & Bot Detection Endpoint.\nEvaluates email and phone signals concurrently to return a single 0-100 Trust Score.",
+        "operationId": "evaluate_trust_score_v1_trust_score_get",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Email address to evaluate",
+              "title": "Email"
+            },
+            "description": "Email address to evaluate"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Phone number to evaluate",
+              "title": "Phone"
+            },
+            "description": "Phone number to evaluate"
+          },
+          {
+            "name": "country_code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Default ISO country code for phone validation",
+              "default": "US",
+              "title": "Country Code"
+            },
+            "description": "Default ISO country code for phone validation"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/TrustScoreRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrustScoreResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Trust Intelligence"
+        ],
+        "summary": "Evaluate Trust Score",
+        "description": "Unified Signup Fraud Defense & Bot Detection Endpoint.\nEvaluates email and phone signals concurrently to return a single 0-100 Trust Score.",
+        "operationId": "evaluate_trust_score_v1_trust_score_post",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Email address to evaluate",
+              "title": "Email"
+            },
+            "description": "Email address to evaluate"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Phone number to evaluate",
+              "title": "Phone"
+            },
+            "description": "Phone number to evaluate"
+          },
+          {
+            "name": "country_code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Default ISO country code for phone validation",
+              "default": "US",
+              "title": "Country Code"
+            },
+            "description": "Default ISO country code for phone validation"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/TrustScoreRequest"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrustScoreResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/trust-score/batch": {
+      "post": {
+        "tags": [
+          "Trust Intelligence"
+        ],
+        "summary": "Batch Evaluate",
+        "description": "High-throughput batch trust scoring for bulk signup audits.",
+        "operationId": "batch_evaluate_v1_trust_score_batch_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchTrustScoreRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchTrustScoreResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/batch-score": {
+      "post": {
+        "tags": [
+          "Trust Intelligence"
+        ],
+        "summary": "Batch Evaluate",
+        "description": "High-throughput batch trust scoring for bulk signup audits.",
+        "operationId": "batch_evaluate_v1_batch_score_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BatchTrustScoreRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchTrustScoreResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BatchTrustScoreRequest": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TrustScoreRequest"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Items",
+            "description": "List of up to 50 email/phone pairs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "BatchTrustScoreRequest"
+      },
+      "BatchTrustScoreResponse": {
+        "properties": {
+          "total_processed": {
+            "type": "integer",
+            "title": "Total Processed"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/TrustScoreResponse"
+            },
+            "type": "array",
+            "title": "Results"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_processed",
+          "results"
+        ],
+        "title": "BatchTrustScoreResponse"
+      },
+      "CarrierInfo": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Telecom carrier name"
+          },
+          "line_type": {
+            "type": "string",
+            "title": "Line Type",
+            "description": "Line classification: MOBILE, FIXED_LINE, VOIP, TOLL_FREE, PAGER, UNKNOWN"
+          },
+          "is_virtual": {
+            "type": "boolean",
+            "title": "Is Virtual",
+            "description": "True if provider is a known virtual VoIP service (Twilio, Google Voice, TextNow)"
+          },
+          "mcc": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mcc",
+            "description": "Mobile Country Code"
+          },
+          "mnc": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mnc",
+            "description": "Mobile Network Code"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "line_type",
+          "is_virtual"
+        ],
+        "title": "CarrierInfo"
+      },
+      "EmailIntelligence": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "title": "Email",
+            "description": "Input email string"
+          },
+          "is_valid": {
+            "type": "boolean",
+            "title": "Is Valid",
+            "description": "True if RFC 5322 syntax is strictly compliant"
+          },
+          "is_disposable": {
+            "type": "boolean",
+            "title": "Is Disposable",
+            "description": "True if domain is a temporary/burner email provider"
+          },
+          "is_role_account": {
+            "type": "boolean",
+            "title": "Is Role Account",
+            "description": "True if address is a shared role (admin@, support@, sales@)"
+          },
+          "is_free_provider": {
+            "type": "boolean",
+            "title": "Is Free Provider",
+            "description": "True if address belongs to public webmail (Gmail, Yahoo, Outlook)"
+          },
+          "has_mx_records": {
+            "type": "boolean",
+            "title": "Has Mx Records",
+            "description": "True if DNS MX records exist and are routable"
+          },
+          "did_you_mean": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Did You Mean",
+            "description": "Typo suggestion for common misspelled domains"
+          },
+          "domain": {
+            "type": "string",
+            "title": "Domain",
+            "description": "Extracted domain"
+          },
+          "risk_score": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Risk Score",
+            "description": "Email-specific fraud risk score (0-100)"
+          },
+          "signals": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Signals",
+            "description": "Specific email signals detected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "is_valid",
+          "is_disposable",
+          "is_role_account",
+          "is_free_provider",
+          "has_mx_records",
+          "domain",
+          "risk_score"
+        ],
+        "title": "EmailIntelligence"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PhoneIntelligence": {
+        "properties": {
+          "phone_input": {
+            "type": "string",
+            "title": "Phone Input",
+            "description": "Input phone string"
+          },
+          "is_valid": {
+            "type": "boolean",
+            "title": "Is Valid",
+            "description": "True if phone number conforms to ITU-T E.164"
+          },
+          "country_code": {
+            "type": "string",
+            "title": "Country Code",
+            "description": "Resolved ISO 2-letter country code"
+          },
+          "e164_format": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "E164 Format",
+            "description": "Canonical E.164 representation"
+          },
+          "international_format": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "International Format",
+            "description": "Human-readable international format"
+          },
+          "national_format": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "National Format",
+            "description": "Standard local format"
+          },
+          "carrier": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CarrierInfo"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Telecom carrier and line type intelligence"
+          },
+          "risk_score": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Risk Score",
+            "description": "Phone-specific fraud risk score (0-100)"
+          },
+          "signals": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Signals",
+            "description": "Specific risk and validity signals detected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "phone_input",
+          "is_valid",
+          "country_code",
+          "risk_score"
+        ],
+        "title": "PhoneIntelligence"
+      },
+      "TrustScoreRequest": {
+        "properties": {
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Email address to evaluate",
+            "example": "jane.doe@company.com"
+          },
+          "phone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phone",
+            "description": "Phone number to evaluate (E.164 or national format)",
+            "example": "+14155552671"
+          },
+          "country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country Code",
+            "description": "Default ISO 3166-1 alpha-2 country code for phone validation",
+            "default": "US",
+            "example": "US"
+          }
+        },
+        "type": "object",
+        "title": "TrustScoreRequest"
+      },
+      "TrustScoreResponse": {
+        "properties": {
+          "trust_score": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Trust Score",
+            "description": "Definitive 0-100 Trust Score. 100 = Highly Verified, 0 = High Fraud"
+          },
+          "risk_score": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Risk Score",
+            "description": "Composite risk score (100 - trust_score)"
+          },
+          "risk_level": {
+            "type": "string",
+            "title": "Risk Level",
+            "description": "LOW, MEDIUM, or HIGH risk classification"
+          },
+          "recommended_action": {
+            "type": "string",
+            "title": "Recommended Action",
+            "description": "ALLOW, FLAG_FOR_REVIEW, or BLOCK policy action"
+          },
+          "signals": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Signals",
+            "description": "Consolidated audit signals across both vectors"
+          },
+          "email_intelligence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EmailIntelligence"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Detailed email validation breakdown"
+          },
+          "phone_intelligence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PhoneIntelligence"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Detailed phone line intelligence breakdown"
+          },
+          "execution_time_ms": {
+            "type": "number",
+            "title": "Execution Time Ms",
+            "description": "Total engine evaluation latency in milliseconds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trust_score",
+          "risk_score",
+          "risk_level",
+          "recommended_action",
+          "execution_time_ms"
+        ],
+        "title": "TrustScoreResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
